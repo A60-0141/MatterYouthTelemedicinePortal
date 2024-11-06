@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Portal</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif; /* Font style */
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default padding */
+            background-color: #f9f9f9; /* Background color */
+        }
+
+        header {
+            background-color: #007bff; /* Header background */
+            color: white; /* Text color */
+            padding: 20px; /* Padding around header */
+            text-align: center; /* Center text */
+        }
+
+        nav {
+            margin: 10px 0; /* Space around navigation */
+        }
+
+        nav a {
+            color: white; /* Link color */
+            margin: 0 15px; /* Space between links */
+            text-decoration: none; /* Remove underline */
+        }
+
+        nav a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        .slider {
+            height: 300px; /* Fixed height for slider */
+            background-image: url('https://www.materkenya.com/images/slider/anc.png'); /* Background image */
+            background-size: cover; /* Cover the entire area */
+            background-position: center; /* Center the image */
+            display: flex; /* Flexbox for centering text */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            color: white; /* Text color */
+            text-align: center; /* Center text */
+        }
+
+        .content {
+            padding: 20px; /* Padding for content */
+        }
+
+        .services-container {
+            display: flex; /* Flexbox for horizontal layout */
+            justify-content: space-between; /* Space between items */
+            flex-wrap: wrap; /* Allow items to wrap if needed */
+            gap: 20px; /* Space between sections */
+        }
+
+        .service {
+            flex: 1; /* Make each service take equal space */
+            min-width: 200px; /* Minimum width for each section */
+            background-color: white; /* Section background */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+            padding: 20px; /* Padding for sections */
+            text-align: center; /* Center text */
+        }
+
+        .button {
+            display: inline-block; /* Make it behave like a button */
+            padding: 10px 20px; /* Padding for buttons */
+            background-color: #007bff; /* Button background */
+            color: white; /* Text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transitions */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker background on hover */
+        }
+
+        footer {
+            background-color: #007bff; /* Footer background */
+            color: white; /* Footer text color */
+            text-align: center; /* Center footer text */
+            padding: 10px; /* Padding for footer */
+            position: relative; /* Position footer */
+            bottom: 0; /* Stick to bottom */
+            width: 100%; /* Full width */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Mater Misericordiae Hospital</h1>
+        <nav>
+            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="https://www.materkenya.com/about-us">About Us</a>
+            <a href="https://www.materkenya.com/services">Services</a>
+            <a href="https://www.materkenya.com/contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="slider">
+        <h2>Welcome to Our Portal</h2>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h3>Emergency Cases</h3>
+            <p>Call Centre on 0719073000 / 0732163000 / Our Accidents and Emergency Department on 0719073051</p>
+            <a href="https://www.materkenya.com/accident-emergency" class="button">LEARN MORE</a>
+        </div>
+
+        <div class="services-container">
+            <div class="service">
+                <h3>General Services</h3>
+                <p>We have a wide range of services to cater to all health needs.</p>
+                <a href="https://www.materkenya.com/general-services" class="button">LEARN MORE</a>
+            </div>
+
+            <div class="service">
+                <h3>Clinical Services</h3>
+                <p>Our team of specialists are available for consultations.</p>
+                <a href="https://www.materkenya.com/clinical-services" class="button">LEARN MORE</a>
+            </div>
+
+            <div class="service">
+                <h3>Qualified Staff</h3>
+                <p>Our team consists of highly qualified medical professionals.</p>
+                <a href="#" class="button">LEARN MORE</a> <!-- Add relevant link -->
+            </div>
+
+            <div class="service">
+                <h3>Modern Facilities</h3>
+                <p>We are equipped with state-of-the-art medical equipment.</p>
+                <a href="#" class="button">LEARN MORE</a> <!-- Add relevant link -->
+            </div>
+
+            <div class="service">
+                <h3>Comprehensive Care</h3>
+                <p>We provide holistic care for all our patients.</p>
+                <a href="#" class="button">LEARN MORE</a> <!-- Add relevant link -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Mater Misericordiae Hospital. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
+
+
+
+
+
+
+
+

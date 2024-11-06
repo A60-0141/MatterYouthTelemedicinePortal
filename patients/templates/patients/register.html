@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Portal - Register</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif; /* Font style */
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default padding */
+            background-color: #f9f9f9; /* Background color */
+            color: #333; /* Text color */
+            display: flex;
+            flex-direction: column; /* Column layout */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            height: 100vh; /* Full height */
+            text-align: center; /* Center text in main */
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            border-bottom: 2px solid #007bff;
+            width: 100%; /* Full width */
+            position: fixed; /* Fix to top */
+            top: 0; /* Align to top */
+            z-index: 1000; /* Stack above other elements */
+        }
+
+        .header-inner {
+            max-width: 1200px; /* Max width for inner container */
+            margin: 0 auto; /* Center container */
+            display: flex;
+            justify-content: space-between; /* Space items */
+            align-items: center; /* Center items vertically */
+        }
+
+        .logo img {
+            max-width: 100%; /* Responsive logo */
+            height: auto;
+            transition: transform 0.3s ease; /* Smooth logo hover effect */
+        }
+
+        .logo img:hover {
+            transform: scale(1.1); /* Scale up on hover */
+        }
+
+        .get-quote a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Button background */
+            color: #fff; /* Button text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth transitions */
+        }
+
+        .get-quote a:hover {
+            background-color: #0056b3; /* Darker background on hover */
+        }
+
+        /* Main Content Styles */
+        h1 {
+            font-size: 2.2em; /* Heading size */
+            color: #007bff; /* Heading color */
+            margin-top: 80px; /* Space below header */
+        }
+
+        p {
+            text-align: center; /* Center paragraph */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        /* Button Styles */
+        .contact-btn {
+            display: inline-block; /* Block display for button */
+            padding: 10px 20px; /* Padding for button */
+            background-color: #28a745; /* Green background */
+            color: white; /* Button text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth transitions */
+            margin-top: 20px; /* Space above button */
+        }
+
+        .contact-btn:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Footer Styles */
+        footer {
+            position: fixed; /* Fix to bottom */
+            bottom: 0; /* Align to bottom */
+            width: 100%; /* Full width */
+            text-align: center; /* Center text */
+            padding: 10px 0; /* Padding */
+            background-color: #f8f9fa; /* Background color */
+            border-top: 2px solid #007bff; /* Top border */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="https://www.materkenya.com">
+                    <img src="https://www.materkenya.com/images/logo_3.png" alt="Logo">
+                </a>
+            </div>
+            <div class="get-quote">
+                <a href="#">Get a Quote</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>WARNING</h1>
+        <h1>This is a Private site. We appreciate your interest in joining us. Please contact the Site Owner or the Administration for access and registration.</h1>
+        <a href="mailto:owner@hospital.com" class="contact-btn">Contact the Site Owner</a>
+        <a href="{% url 'home' %}" class="contact-btn">Go Back</a>
+
+    </main>
+
+    <footer>
+        &copy; 2024 Hospital Portal. All Rights Reserved.
+    </footer>
+</body>
+
+</html>
+
+

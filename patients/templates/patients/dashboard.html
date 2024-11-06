@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal</title>
+    <style>
+        /* Reset some default browser styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+        }
+        .action-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .action-buttons a {
+            display: inline-block;
+            background-color: #27ae60;
+            color: #fff;
+            padding: 8px 12px; /* Reduced padding for smaller buttons */
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin: 5px; /* Space between buttons */
+            font-size: 0.9em; /* Smaller font size */
+        }
+        .action-buttons a:hover {
+            background-color: #219150;
+        }
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #ecf0f1;
+            overflow: hidden; /* Prevent overflow */
+        }
+        .main-content header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .dashboard-panels {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap; /* Wrap panels on smaller screens */
+        }
+        .panel {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            width: 30%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px; /* Spacing between panels */
+        }
+        .charts {
+            margin-top: 20px;
+        }
+        .chart {
+            margin: 20px 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Calendar styling */
+        #calendar {
+            max-width: 90%;
+            margin: 20px auto; /* Center the calendar */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden; /* Clip overflow */
+        }
+        .fc {
+            font-family: Arial, sans-serif;
+        }
+        .fc-daygrid-day {
+            border: 1px solid #e2e2e2; /* Day borders */
+        }
+        .fc-daygrid-day-number {
+            font-weight: bold;
+            color: #2980b9; /* Day numbers color */
+        }
+        .fc-daygrid-day:hover {
+            background-color: #d9edf7; /* Highlight day on hover */
+        }
+        .fc-event {
+            background-color: #3498db; /* Event background */
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar for Navigation -->
+        <nav class="sidebar">
+            <h2>Patient Portal</h2>
+            <ul>
+                <li><a href="#">My Overview</a></li>
+                <li><a href="#">Appointments</a></li>
+                <li><a href="#">My Progress</a></li>
+                <li><a href="#">Medical History</a></li>
+                <li><a href="#">Doctor's Notes</a></li>
+            </ul>
+            <div class="action-buttons">
+                <a href="{% url 'schedule_appointment' %}">Schedule Appointment</a>
+                <a href="{% url 'chat' %}">View Communications</a>
+                <a href="{% url 'home' %}">Logout</a>
+            </div>
+        </nav>
+
+        <div id="calendar"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Welcome, {{ request.user.username }}</h1>
+                <p>Your weight: {{ patient.weight }} kg</p>
+                <p>Your doctor: {{ patient.doctor }}</p>
+                <p>Here is your health overview and progress.</p>
+            </header>
+
+            <!-- Patient Overview Panels -->
+            <section class="dashboard-panels">
+                <div class="panel">
+                    <h3>Next Appointment</h3>
+                    <p id="next-appointment">{{ patient.next_appointment }}</p>
+                </div>
+                <div class="panel">
+                    <h3>Current Medication</h3>
+                    <p id="medication">{{ patient.medication }}</p>
+                </div>
+                <div class="panel">
+                    <h3>Doctor Assigned</h3>
+                    <p id="doctor">{{ patient.doctor.username }}</p>
+                </div>
+            </section>
+
+            <!-- Progress Charts -->
+            <section class="charts">
+                <!-- Doctor's Progress Chart -->
+                <div class="chart" id="progress-chart">
+                    <h3>Your Health Progress</h3>
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <!-- Appointments History Chart -->
+                <div class="chart" id="appointments-chart">
+                    <h3>Appointments Overview</h3>
+                    <canvas id="appointmentsChart"></canvas>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {
+                        title: 'Doctor Appointment',
+                        start: '2024-10-25T10:30:00',
+                        end: '2024-10-25T11:30:00'
+                    },
+                    // Dynamically load more events from your database
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Safely Pass Django Data to JavaScript -->
+    <script type="application/json" id="progress-data">
+        {{ progress_data|safe }}
+    </script>
+    <script type="application/json" id="appointments-data">
+        {{ appointments_data|safe }}
+    </script>
+
+    <script>
+        // JavaScript Code for Charts (Dynamic Data)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch data from the hidden script tags
+            const progressDataJson = JSON.parse(document.getElementById('progress-data').textContent);
+            const appointmentsDataJson = JSON.parse(document.getElementById('appointments-data').textContent);
+
+            // Progress Chart (Patient progress chart)
+            const ctxProgress = document.getElementById('progressChart').getContext('2d');
+            const progressChart = new Chart(ctxProgress, {
+                type: 'line',
+                data: {
+                    labels: progressDataJson.dates,
+                    datasets: [{
+                        label: 'Health Improvement (%)',
+                        data: progressDataJson.scores,
+                        borderColor: 'rgba(46, 204, 113, 1)',
+                        fill: false,
+                        borderWidth: 2 // Thicker line for visibility
+                    }]
+                }
+            });
+
+            // Appointments Chart (Patient appointments history)
+            const ctxAppointments = document.getElementById('appointmentsChart').getContext('2d');
+            const appointmentsChart = new Chart(ctxAppointments, {
+                type: 'bar',
+                data: {
+                    labels: appointmentsDataJson.dates,
+                    datasets: [{
+                        label: 'Appointments',
+                        data: appointmentsDataJson.counts,
+                        backgroundColor: 'rgba(52, 152, 219, 1)',
+                    }]
+                }
+            });
+        });
+    </script>
+</body>
+</html>

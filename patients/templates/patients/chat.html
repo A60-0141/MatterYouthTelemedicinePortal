@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat - Hospital Portal</title>
+
+    <!-- Custom CSS for Group Chat -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chat-container {
+            background-color: #ffffff;
+            width: 70%;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #0044cc;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto; /* Scrollable list */
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        li {
+            background-color: #f1f9ff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .message {
+            color: #333333;
+            font-size: 1.1rem;
+            flex-grow: 1;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: #888888;
+            margin-left: 15px;
+        }
+
+        /* Optional styling for profile images in the chat */
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+        }
+
+        /* Footer or additional actions */
+        .chat-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .chat-footer a {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #0044cc;
+            color: #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-footer a:hover {
+            background-color: #003399;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <h2>Communications</h2>
+
+        <ul>
+            <!-- Loop through group chats -->
+            {% for chat in group_chats %}
+            <li>
+                <div class="message">{{ chat.message }}</div>
+                <div class="timestamp">{{ chat.timestamp }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Footer for additional actions (e.g., back to dashboard or start new conversation) -->
+        <div class="chat-footer">
+            <a href="{% url 'home' %}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>
